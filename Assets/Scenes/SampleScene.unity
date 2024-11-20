@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2798,8 +2798,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289864054
-  m_fontColor: {r: 0.46171388, g: 0.1284265, b: 0.6981132, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4268,6 +4268,7 @@ MonoBehaviour:
   width: 9
   height: 12
   tileBackGround: {fileID: 7694186862702698537, guid: a90e9720dfa5fba4898f9dc910c3a79d, type: 3}
+  colliders: []
 --- !u!1001 &950600756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5399,6 +5400,10 @@ PrefabInstance:
     - target: {fileID: 189808606756787652, guid: 0de5ead3f07b78e4990fc656ea0e1f09, type: 3}
       propertyPath: m_Name
       value: Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 189808606756787652, guid: 0de5ead3f07b78e4990fc656ea0e1f09, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 714248528250834814, guid: 0de5ead3f07b78e4990fc656ea0e1f09, type: 3}
       propertyPath: m_RootOrder

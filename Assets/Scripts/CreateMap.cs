@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class CreateMap : MonoBehaviour
@@ -9,7 +10,7 @@ public class CreateMap : MonoBehaviour
 
     public GameObject tileBackGround;
     public GameObject[,] maps;
-    
+    public List<ColliderBackGround> colliders;
    
     private void Start()
     {
@@ -28,9 +29,22 @@ public class CreateMap : MonoBehaviour
                 tile.transform.rotation=Quaternion.identity;
                 tile.name= "(" + i + "," + j + ")";
                 maps[i,j]= tile;
+                colliders.Add(tile.GetComponent<ColliderBackGround>());
             }    
         }
-        
-
+    }
+    public bool CheckCount()
+    {
+        int num = 0;
+        for(int i = 0; i < colliders.Count; i++)
+        {
+            num+= colliders[i].isActive;
+        }
+        if (num == 0) { return true; }
+        return false;
+    }
+    private void Update()
+    {
+        CheckCount();
     }
 }
