@@ -29,7 +29,15 @@ public class CreateMap : MonoBehaviour
 
     private void Start()
     {
-        layouts = levelObjects.mapData[GameManager.Instance.level - 1].tileTypes;
+        if (GameManager.Instance.level <= levelObjects.mapData.Count)
+        {
+            layouts = levelObjects.mapData[GameManager.Instance.level - 1].tileTypes;
+        }
+        //else
+        //{
+        //    layouts = levelObjects.mapData[0].tileTypes;
+        //}
+        
         maps=new GameObject[width,height];
         wallSpace = new bool[width, height];
         CheckWallTiles();
