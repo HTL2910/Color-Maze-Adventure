@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public int level;
+    
     public void Awake()
     {
         if (PlayerPrefs.HasKey("Level"))
@@ -18,4 +19,5 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.Save();
         }
     }
+   
 }

@@ -26,6 +26,7 @@ public class CreateMap : MonoBehaviour
     public List<ColliderBackGround> colliders;
     public bool[,] wallSpace;
     public LevelObject levelObjects;
+
     private void Start()
     {
         layouts = levelObjects.mapData[GameManager.Instance.level - 1].tileTypes;
@@ -80,11 +81,6 @@ public class CreateMap : MonoBehaviour
         if (num == 0) { return true; }
         return false;
     }
-    private void Update()
-    {
-        if (CheckCount())
-        {
-            Debug.Log("Win");
-        }
-    }
+
+      
 }
