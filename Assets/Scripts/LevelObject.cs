@@ -4,5 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ScriptableObject", menuName = "ScriptableObjects/levelObject", order = 1)]
 public class LevelObject : ScriptableObject
 {
-    public List<MapData> mapData;
+    //public List<MapData> mapData;
+    public List<BoolMatrix> list_Matrix;
 }

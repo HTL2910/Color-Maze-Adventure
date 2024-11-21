@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -17,68 +17,65 @@ public class TileType
 }
 public class CreateMap : MonoBehaviour
 {
-    [SerializeField] int width=9;
-    [SerializeField] int height=12;
-    public TileType[] layouts;
+   
+    [SerializeField] int width = 9;
+    [SerializeField] int height = 12;
     public GameObject tileBackGround;
     public GameObject wallPrefabs;
-    private GameObject[,] maps;
-    public List<ColliderBackGround> colliders;
-    public bool[,] wallSpace;
     public LevelObject levelObjects;
+
+    private GameObject[,] maps;
+    private List<ColliderBackGround> colliders;
+
+    private void Awake()
+    {
+        colliders = new List<ColliderBackGround>();
+    }
 
     private void Start()
     {
-        if (GameManager.Instance.level <= levelObjects.mapData.Count)
-        {
-            layouts = levelObjects.mapData[GameManager.Instance.level - 1].tileTypes;
-        }
-        //else
-        //{
-        //    layouts = levelObjects.mapData[0].tileTypes;
-        //}
-        
-        maps=new GameObject[width,height];
-        wallSpace = new bool[width, height];
-        CheckWallTiles();
+       
+
+        maps = new GameObject[width, height];
         InitMap();
     }
+
     private void InitMap()
     {
-        for(int i=1;i<width;i++)
+        for (int i = 0; i < width; i++) 
         {
-            for(int j=0;j<height;j++)
+            for (int j = 0; j < height; j++)
             {
-                if (wallSpace[i, j])
+                if (levelObjects.list_Matrix[0].GetValue(i,j) == false) 
                 {
                     GameObject wallTmp = Instantiate(wallPrefabs, this.transform);
                     wallTmp.transform.position = new Vector3(i, j, 89f);
                     wallTmp.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-                    wallTmp.name= "(wall: " + i + "," + j + ")";
+                    wallTmp.name = $"(wall: {i},{j})";
                 }
-                else
+                else 
                 {
                     GameObject tile = Instantiate(tileBackGround, this.transform);
                     tile.transform.position = new Vector3(i, j, 90.5f);
                     tile.transform.rotation = Quaternion.identity;
-                    tile.name = "(" + i + "," + j + ")";
+                    tile.name = $"({i},{j})";
                     maps[i, j] = tile;
-                    colliders.Add(tile.GetComponent<ColliderBackGround>());
+
+                  
+                    ColliderBackGround collider = tile.GetComponent<ColliderBackGround>();
+                    if (collider != null)
+                    {
+                        colliders.Add(collider);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Tile tại ({i},{j}) không có ColliderBackGround.");
+                    }
                 }
-            }    
-        }
-    }
-    public void CheckWallTiles()//Start
-    {
-        for(int i=0;i<layouts.Length;i++)
-        {
-            if (layouts[i].tileKind == TileKind.Wall)
-            {
-                wallSpace[layouts[i].x, layouts[i].y] = true;
             }
         }
-  
     }
+
     public bool CheckCount()
     {
         int num = 0;

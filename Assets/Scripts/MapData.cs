@@ -10,12 +10,13 @@ public class MapData : ScriptableObject
     //x :width
     //y: height
     public TileType[] tileTypes;
+
     private void Reset()
     {
-        int width = 9;  
+        int width = 9;
         int height = 12;
         tileTypes = new TileType[width * height];
-        for (int i = 0; i < width; i++) 
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
@@ -25,12 +26,9 @@ public class MapData : ScriptableObject
                 tileTypes[index].x = i;
                 tileTypes[index].y = j;
                 tileTypes[index].tileKind = TileKind.Wall;
-                Debug.Log(index); 
+                Debug.Log(index);
             }
         }
     }
-
-
-
 
 }

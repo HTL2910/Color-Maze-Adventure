@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08328aa0f90d3db4f91f727b35504c5d, type: 3}
   m_Name: LevelObjects
   m_EditorClassIdentifier: 
-  mapData:
-  - {fileID: 11400000, guid: 00cf420cfce1dc148aac91b0164b7c51, type: 2}
-  - {fileID: 11400000, guid: 930ed034c8e7d224785c57f5a3197eb7, type: 2}
-  - {fileID: 11400000, guid: 4b48830288f205544b4c93315e6104e3, type: 2}
+  list_Matrix:
+  - {fileID: 11400000, guid: 31411f76f43fa6a45907da8d2b4910e9, type: 2}
