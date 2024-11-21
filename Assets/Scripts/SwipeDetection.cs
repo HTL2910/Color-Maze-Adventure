@@ -8,10 +8,11 @@ public class SwipeDetection : MonoBehaviour
     private Vector2 startPos;
     private float swipeStartTime;
 
-    public float maxSwipeTime = 0.5f; 
+    public float maxSwipeTime = 1f; 
     public float minSwipeDist = 50f;       
-    [SerializeField] float speed = 15f;
+    [SerializeField] float speed = 10f;
     [SerializeField] private Vector2 moveDirection;
+   
     void Start()
     {
         StartCoroutine(CheckSwipes());
@@ -30,7 +31,7 @@ public class SwipeDetection : MonoBehaviour
                         case TouchPhase.Began:
                             couldBeSwipe = true;
                             startPos = touch.position;
-                            swipeStartTime = Time.time;
+                            swipeStartTime = Time.unscaledTime;
                             break;
 
                         case TouchPhase.Stationary:
@@ -40,11 +41,10 @@ public class SwipeDetection : MonoBehaviour
                         case TouchPhase.Ended:
                             if (couldBeSwipe)
                             {
-                                float swipeTime = Time.time - swipeStartTime;
+                                float swipeTime = Time.unscaledTime - swipeStartTime;
                                 Vector2 endPos = touch.position;
                                 float swipeDist = (endPos - startPos).magnitude;
 
-                                // Kiểm tra điều kiện vuốt
                                 if (swipeTime < maxSwipeTime && swipeDist > minSwipeDist)
                                 {
                                     DetectSwipeDirection(endPos - startPos);

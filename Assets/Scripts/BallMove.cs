@@ -9,26 +9,48 @@ public class BallMove : MonoBehaviour
     public float SwipeAngle = 0f;
     public float swipeResist = 1f;
     public float speed = 5f;
-    private Vector2 moveDirection;
-
-    private void OnMouseDown()
-    {
-        if(moveDirection== Vector2.zero)
-        {
-            firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-    }
-
-    private void OnMouseUp()
+    protected Vector2 moveDirection;
+    /// <summary>
+    /// Cách 1:   
+    public virtual void Update()
     {
         if (moveDirection == Vector2.zero)
         {
-            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            CalculateAngle();
+            if (Input.GetMouseButtonDown(0))
+            {
+                firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                CalculateAngle();
+            }
         }
     }
+    /// </summary>
 
-    private void CalculateAngle()
+    /// <summary>
+    /// Cách 2:
+    //private void OnMouseDown()
+    //{
+    //    if (moveDirection == Vector2.zero)
+    //    {
+    //        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    }
+    //}
+
+    //private void OnMouseUp()
+    //{
+    //    if (moveDirection == Vector2.zero)
+    //    {
+    //        finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        CalculateAngle();
+    //    }
+    //}
+    /// </summary>
+
+    protected void CalculateAngle()
     {
         if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
             Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
@@ -44,22 +66,26 @@ public class BallMove : MonoBehaviour
         if (SwipeAngle > -45 && SwipeAngle <= 45)
         {
             // Right
+            Debug.Log("Right");
             moveDirection = Vector2.right;
         }
         else if (SwipeAngle > 45 && SwipeAngle <= 135)
         {
             // Up
             moveDirection = Vector2.up;
+            Debug.Log("Up");
         }
         else if (SwipeAngle > 135 || SwipeAngle <= -135)
         {
             // Left
             moveDirection = Vector2.left;
+            Debug.Log("Left");
         }
         else if (SwipeAngle > -135 && SwipeAngle < -45)
         {
             // Down
             moveDirection = Vector2.down;
+            Debug.Log("Down");
         }
     }
 
