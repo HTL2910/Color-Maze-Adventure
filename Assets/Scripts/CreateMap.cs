@@ -26,7 +26,8 @@ public class CreateMap : MonoBehaviour
 
     private GameObject[,] maps;
     private List<ColliderBackGround> colliders;
-
+    protected int level;
+    int index;
     private void Awake()
     {
         colliders = new List<ColliderBackGround>();
@@ -34,8 +35,17 @@ public class CreateMap : MonoBehaviour
 
     private void Start()
     {
-       
 
+        level = PlayerPrefs.GetInt("Level", 1);
+        if (levelObjects.list_Matrix.Count < level)
+        {
+            int tmp=(int) Random.Range(0,levelObjects.list_Matrix.Count);
+            index = tmp;
+        }
+        else
+        {
+            index = level - 1;
+        }
         maps = new GameObject[width, height];
         InitMap();
     }
@@ -46,7 +56,7 @@ public class CreateMap : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (levelObjects.list_Matrix[0].GetValue(i,j) == false) 
+                if (levelObjects.list_Matrix[index].GetValue(i,j) == false) 
                 {
                     GameObject wallTmp = Instantiate(wallPrefabs, this.transform);
                     wallTmp.transform.position = new Vector3(i, j, 89f);
