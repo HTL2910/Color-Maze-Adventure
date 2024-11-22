@@ -5284,7 +5284,6 @@ MonoBehaviour:
   height: 12
   tileBackGround: {fileID: 7694186862702698537, guid: a90e9720dfa5fba4898f9dc910c3a79d, type: 3}
   wallPrefabs: {fileID: 5848999052672705806, guid: f14f6ced880f86d4eab7be9de9cc6d75, type: 3}
-  colliders: []
   levelObjects: {fileID: 11400000, guid: 8fda4b86bbcaf9046a36648d241932b6, type: 2}
 --- !u!1001 &950600756
 PrefabInstance:
@@ -6650,7 +6649,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1518744195382076959, guid: 0de5ead3f07b78e4990fc656ea0e1f09, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0de5ead3f07b78e4990fc656ea0e1f09, type: 3}
 --- !u!1 &1225896946 stripped
 GameObject:
@@ -6691,6 +6691,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1225896954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225896946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a64e4660d15ac4593119fcbe5d810f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstTouchPosition: {x: 0, y: 0, z: 0}
+  finalTouchPosition: {x: 0, y: 0, z: 0}
+  SwipeAngle: 0
+  swipeResist: 1
+  speed: 7
 --- !u!1001 &1250428832
 PrefabInstance:
   m_ObjectHideFlags: 0

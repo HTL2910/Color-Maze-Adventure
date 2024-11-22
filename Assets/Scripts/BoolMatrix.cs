@@ -7,6 +7,7 @@ public class BoolMatrix : ScriptableObject
     public int rows = 9; // Số hàng
     public int columns = 12; // Số cột
     [Header("Matrix")]
+    [Tooltip("Row in 0 is false")]
     public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
 
     private void Reset()

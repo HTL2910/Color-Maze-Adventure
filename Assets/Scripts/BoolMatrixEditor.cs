@@ -20,10 +20,10 @@ public class BoolMatrixEditor : Editor
         }
 
         // Hiển thị ma trận dưới dạng bảng
-        for (int i = boolMatrix.rows-1; i>=0; i--)
+        for (int i =0; i < boolMatrix.rows; i++)
         {
             EditorGUILayout.BeginHorizontal();
-            for (int j = boolMatrix.columns-1; j >=0 ; j--)
+            for (int j = 0; j < boolMatrix.columns; j++)
             {
                 bool currentValue = boolMatrix.GetValue(i, j);
                 bool newValue = EditorGUILayout.Toggle(currentValue, GUILayout.Width(20));
