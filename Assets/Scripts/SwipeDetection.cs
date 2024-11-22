@@ -30,7 +30,7 @@ public class SwipeDetection : MonoBehaviour
                         case TouchPhase.Began:
                             couldBeSwipe = true;
                             startPos = touch.position;
-                            swipeStartTime = Time.time;
+                            swipeStartTime = Time.unscaledTime;
                             break;
 
                         case TouchPhase.Stationary:
@@ -40,7 +40,7 @@ public class SwipeDetection : MonoBehaviour
                         case TouchPhase.Ended:
                             if (couldBeSwipe)
                             {
-                                float swipeTime = Time.time - swipeStartTime;
+                                float swipeTime = Time.unscaledTime - swipeStartTime;
                                 Vector2 endPos = touch.position;
                                 float swipeDist = (endPos - startPos).magnitude;
 

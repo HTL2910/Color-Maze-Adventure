@@ -10,6 +10,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] TextMeshProUGUI levelText;
     public GameObject settingPanel;
+    public GameObject startPanel;
     public Slider audioSlider;
     public AudioSource audioSource;
     public AudioClip winGame;
@@ -18,6 +19,7 @@ public class UIManager : Singleton<UIManager>
     {
         levelText.text = "Level "+GameManager.Instance.level.ToString();
         audioSlider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
+        StartCoroutine(StartGame(1f));
     }
     public void Play()
     {
@@ -38,5 +40,10 @@ public class UIManager : Singleton<UIManager>
     public void WinGame()
     {
         audioSource.PlayOneShot(winGame);
+    }
+    IEnumerator StartGame(float time)
+    {
+        yield return new WaitForSeconds(time);
+        startPanel.SetActive(false);
     }
 }

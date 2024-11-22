@@ -1262,6 +1262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelText: {fileID: 690667847}
   settingPanel: {fileID: 121646398}
+  startPanel: {fileID: 1823236429}
   audioSlider: {fileID: 424182653}
   audioSource: {fileID: 188134674}
   winGame: {fileID: 8300000, guid: e5e2f118dde64e84e9f7ff07f6734faf, type: 3}
@@ -1280,7 +1281,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -9321,7 +9322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1823236430
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9362,7 +9363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5e42c95ce3fd3bd419a26e88fb4dc6cd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af0e016a6a66a944480e93dae92a74f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
