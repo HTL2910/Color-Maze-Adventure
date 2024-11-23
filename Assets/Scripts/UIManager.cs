@@ -18,7 +18,9 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         levelText.text = "Level "+GameManager.Instance.level.ToString();
+        
         audioSlider.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
+        audioSlider.value = PlayerPrefs.GetFloat("volume", 0.5f);
         StartCoroutine(StartGame(1f));
     }
     public void Play()
@@ -36,6 +38,8 @@ public class UIManager : Singleton<UIManager>
     void ValueChangeCheck()
     {
         audioSource.volume=audioSlider.value;
+        PlayerPrefs.SetFloat("volume", audioSlider.value);
+        PlayerPrefs.Save();
     }
     public void WinGame()
     {
