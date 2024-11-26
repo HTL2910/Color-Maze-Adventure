@@ -111,6 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ce7149b9ac228489280f8eca157cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newColor: {r: 0.36736578, g: 0.7924528, b: 0.18316127, a: 1}
+  newColor: {r: 0.25958225, g: 0.9245283, b: 0.07413671, a: 1}
   spriteRenderer: {fileID: 0}
   isActive: 1

@@ -1,20 +1,8 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public enum TileKind
-{
-    Wall,
-    Normal
-}
-[System.Serializable]
-public class TileType
-{
-    public int x;
-    public int y;
-    public TileKind tileKind;
-}
+
 public class CreateMap : MonoBehaviour
 {
    
@@ -22,12 +10,17 @@ public class CreateMap : MonoBehaviour
     [SerializeField] int height = 12;
     public GameObject tileBackGround;
     public GameObject wallPrefabs;
+    public GameObject ball;
     public LevelObject levelObjects;
-
+    private GameObject[] walls;
     private GameObject[,] maps;
     private List<ColliderBackGround> colliders;
     protected int level;
     int index;
+    [SerializeField] Material wallMaterial;
+    [SerializeField] Material ballMaterial;
+    [SerializeField] Color colorBackground;
+    [SerializeField] Color newColorBackground;
     private void Awake()
     {
         colliders = new List<ColliderBackGround>();
@@ -35,11 +28,15 @@ public class CreateMap : MonoBehaviour
 
     private void Start()
     {
-
+        walls = GameObject.FindGameObjectsWithTag("Wall");
+        foreach(GameObject wall in walls)
+        {
+            Material(wall, wallMaterial);
+        }
         level = PlayerPrefs.GetInt("Level", 1);
         if (levelObjects.list_Matrix.Count < level)
         {
-            int tmp=(int) Random.Range(0,levelObjects.list_Matrix.Count);
+            int tmp=(int) UnityEngine.Random.Range(0,levelObjects.list_Matrix.Count);
             index = tmp;
         }
         else
@@ -47,7 +44,20 @@ public class CreateMap : MonoBehaviour
             index = level - 1;
         }
         maps = new GameObject[width, height];
+        Material(ball, ballMaterial);
         InitMap();
+    }
+    
+
+    private void Material(GameObject obj,Material mat)
+    {
+        MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
+        Material[] mats = meshRenderer.materials;
+        for (int i = 0; i < mats.Length; i++)
+        {
+            mats[i] = mat;
+        }
+        meshRenderer.materials = mats;
     }
 
     private void InitMap()
@@ -59,6 +69,7 @@ public class CreateMap : MonoBehaviour
                 if (levelObjects.list_Matrix[index].GetValue(i,j) == false) 
                 {
                     GameObject wallTmp = Instantiate(wallPrefabs, this.transform);
+                    Material(wallTmp,wallMaterial);
                     wallTmp.transform.position = new Vector3(i, j, 89f);
                     wallTmp.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
                     wallTmp.name = $"(wall: {i},{j})";
@@ -66,6 +77,8 @@ public class CreateMap : MonoBehaviour
                 else 
                 {
                     GameObject tile = Instantiate(tileBackGround, this.transform);
+                    tile.GetComponent<SpriteRenderer>().color = colorBackground;
+                    tile.GetComponent<ColliderBackGround>().newColor = newColorBackground;
                     tile.transform.position = new Vector3(i, j, 90.5f);
                     tile.transform.rotation = Quaternion.identity;
                     tile.name = $"({i},{j})";

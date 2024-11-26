@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ColliderBackGround : MonoBehaviour
 {
-    [SerializeField] Color newColor;
+    public Color newColor;
     [SerializeField] SpriteRenderer spriteRenderer;
     public int isActive = 1;
     private CreateMap create;
@@ -21,6 +21,7 @@ public class ColliderBackGround : MonoBehaviour
     {
         if (other.CompareTag("Player") && isActive == 1)
         {
+            spriteRenderer.color = Color.white;
             spriteRenderer.color = newColor;
             isActive = 0;
             if (create.CheckCount())
