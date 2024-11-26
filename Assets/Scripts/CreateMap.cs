@@ -21,6 +21,8 @@ public class CreateMap : MonoBehaviour
     [SerializeField] Material ballMaterial;
     [SerializeField] Color colorBackground;
     [SerializeField] Color newColorBackground;
+
+    private BoolMatrix boolMatrix;
     private void Awake()
     {
         colliders = new List<ColliderBackGround>();
@@ -29,25 +31,40 @@ public class CreateMap : MonoBehaviour
     private void Start()
     {
         walls = GameObject.FindGameObjectsWithTag("Wall");
-        foreach(GameObject wall in walls)
+
+        InitGamePlay();
+        SetMaterial();
+        InitMap();
+    }
+
+    private void SetMaterial()
+    {
+        Material(ball, ballMaterial);
+        foreach (GameObject wall in walls)
         {
             Material(wall, wallMaterial);
         }
+    }
+
+    private void InitGamePlay()
+    {
         level = PlayerPrefs.GetInt("Level", 1);
         if (levelObjects.list_Matrix.Count < level)
         {
-            int tmp=(int) UnityEngine.Random.Range(0,levelObjects.list_Matrix.Count);
+            int tmp = (int)UnityEngine.Random.Range(0, levelObjects.list_Matrix.Count);
             index = tmp;
         }
         else
         {
             index = level - 1;
         }
+        boolMatrix = levelObjects.list_Matrix[index];
+        ballMaterial = boolMatrix.ballMaterial;
+        wallMaterial = boolMatrix.wallMaterial;
+        colorBackground = boolMatrix.colorBackground;
+        newColorBackground = boolMatrix.newColorBackground;
         maps = new GameObject[width, height];
-        Material(ball, ballMaterial);
-        InitMap();
     }
-    
 
     private void Material(GameObject obj,Material mat)
     {
@@ -66,7 +83,7 @@ public class CreateMap : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (levelObjects.list_Matrix[index].GetValue(i,j) == false) 
+                if (boolMatrix.GetValue(i,j) == false) 
                 {
                     GameObject wallTmp = Instantiate(wallPrefabs, this.transform);
                     Material(wallTmp,wallMaterial);

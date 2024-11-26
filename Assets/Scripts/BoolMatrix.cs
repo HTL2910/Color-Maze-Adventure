@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+[System.Serializable]
 [CreateAssetMenu(fileName = "BoolMatrix", menuName = "ScriptableObjects/BoolMatrix", order = 1)]
 public class BoolMatrix : ScriptableObject
 {
+    
     public int rows = 9; // Số hàng
     public int columns = 12; // Số cột
-    [Header("Matrix")]
-    [Tooltip("Row in 0 is false")]
+    public Material ballMaterial;
+    public Material wallMaterial;
+    public Color colorBackground;
+    public Color newColorBackground;
+   
+   
     public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
 
     private void Reset()
@@ -17,6 +22,8 @@ public class BoolMatrix : ScriptableObject
         {
             matrix = new List<bool>(new bool[rows * columns]);
         }
+        colorBackground= Color.blue;
+        newColorBackground = Color.yellow;
     }
    
     // Hàm tiện ích để truy cập ma trận
