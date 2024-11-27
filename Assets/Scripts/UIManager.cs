@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] TextMeshProUGUI levelText;
+    public List<AudioClip> audioList=new List<AudioClip>();
     public GameObject settingPanel;
     public GameObject startPanel;
     public Slider audioSlider;
@@ -49,5 +50,11 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitForSeconds(time);
         startPanel.SetActive(false);
+    }
+    public void RandomAudio()
+    {
+        int index = Random.Range(0, audioList.Count);
+        AudioClip clip = audioList[index];
+        audioSource.PlayOneShot(clip);
     }
 }

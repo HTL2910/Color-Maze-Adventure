@@ -24,6 +24,7 @@ public class ColliderBackGround : MonoBehaviour
             spriteRenderer.color = Color.white;
             spriteRenderer.color = newColor;
             isActive = 0;
+            UIManager.Instance.RandomAudio();
             if (create.CheckCount())
             {
                 PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 1) +1);
