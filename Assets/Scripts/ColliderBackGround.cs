@@ -19,19 +19,23 @@ public class ColliderBackGround : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && isActive == 1)
+        if (other.CompareTag("Player") )
         {
-            spriteRenderer.color = Color.white;
-            spriteRenderer.color = newColor;
-            isActive = 0;
             UIManager.Instance.RandomAudio();
-            if (create.CheckCount())
+            if (isActive == 1)
             {
-                PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 1) +1);
-                PlayerPrefs.Save();
-                UIManager.Instance.WinGame();
-                StartCoroutine(NextGame());
+                spriteRenderer.color = Color.white;
+                spriteRenderer.color = newColor;
+                isActive = 0;
+                if (create.CheckCount())
+                {
+                    PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 1) + 1);
+                    PlayerPrefs.Save();
+                    UIManager.Instance.WinGame();
+                    StartCoroutine(NextGame());
+                }
             }
+            
         }
     }
 
