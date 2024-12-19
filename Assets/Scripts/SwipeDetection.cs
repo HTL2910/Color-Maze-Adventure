@@ -117,5 +117,5 @@ public class SwipeDetection : MonoBehaviour
             gameObject.transform.position = newPosition;
         }
     }
-    
+ 
 }

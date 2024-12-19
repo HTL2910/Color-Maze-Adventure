@@ -2,7 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum TileTrap
+{
+    Trap, 
+    Breakable,
+    Boss
+}
+[System.Serializable]
+public class TileType
+{
+    public int x;
+    public int y;
+    public TileTrap tileKind;
+}
 public class CreateMap : MonoBehaviour
 {
    
@@ -10,10 +22,13 @@ public class CreateMap : MonoBehaviour
     [SerializeField] int height = 12;
     public GameObject tileBackGround;
     public GameObject wallPrefabs;
+    public GameObject trapPrefabs;
     public GameObject ball;
     public LevelObject levelObjects;
     private GameObject[] walls;
     private GameObject[,] maps;
+    public TileType[] trapInMap;
+    private bool[,] trapSpaces;
     private List<ColliderBackGround> colliders;
     protected int level;
     int index;
@@ -31,12 +46,22 @@ public class CreateMap : MonoBehaviour
     private void Start()
     {
         walls = GameObject.FindGameObjectsWithTag("Wall");
-
+        trapSpaces=new bool[width, height];
+        GenTrap();
         InitGamePlay();
         SetMaterial();
         InitMap();
     }
-
+    private void GenTrap()
+    {
+        for (int i = 0; i < trapInMap.Length; i++)
+        {
+            if (trapInMap[i].tileKind == TileTrap.Trap)
+            {
+                trapSpaces[trapInMap[i].x, trapInMap[i].y] = true;
+            }
+        }
+    }
     private void SetMaterial()
     {
         Material(ball, ballMaterial);
@@ -93,24 +118,35 @@ public class CreateMap : MonoBehaviour
                 }
                 else 
                 {
-                    GameObject tile = Instantiate(tileBackGround, this.transform);
-                    tile.GetComponent<SpriteRenderer>().color = colorBackground;
-                    tile.GetComponent<ColliderBackGround>().newColor = newColorBackground;
-                    tile.transform.position = new Vector3(i, j, 90.5f);
-                    tile.transform.rotation = Quaternion.identity;
-                    tile.name = $"({i},{j})";
-                    maps[i, j] = tile;
-
-                  
-                    ColliderBackGround collider = tile.GetComponent<ColliderBackGround>();
-                    if (collider != null)
+                    if (trapSpaces[i,j]==true)
                     {
-                        colliders.Add(collider);
+                        GameObject trap = Instantiate(trapPrefabs, this.transform);
+                        trap.transform.position = new Vector3(i, j, 91f);
+                        trap.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+                        trap.name = $"Trap: ({i},{j})";
                     }
                     else
                     {
-                        Debug.LogWarning($"Tile tại ({i},{j}) không có ColliderBackGround.");
+                        GameObject tile = Instantiate(tileBackGround, this.transform);
+                        tile.GetComponent<SpriteRenderer>().color = colorBackground;
+                        tile.GetComponent<ColliderBackGround>().newColor = newColorBackground;
+                        tile.transform.position = new Vector3(i, j, 90.5f);
+                        tile.transform.rotation = Quaternion.identity;
+                        tile.name = $"({i},{j})";
+                        maps[i, j] = tile;
+
+
+                        ColliderBackGround collider = tile.GetComponent<ColliderBackGround>();
+                        if (collider != null)
+                        {
+                            colliders.Add(collider);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Tile tại ({i},{j}) không có ColliderBackGround.");
+                        }
                     }
+                   
                 }
             }
         }

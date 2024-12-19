@@ -5293,8 +5293,16 @@ MonoBehaviour:
   height: 12
   tileBackGround: {fileID: 7694186862702698537, guid: a90e9720dfa5fba4898f9dc910c3a79d, type: 3}
   wallPrefabs: {fileID: 5848999052672705806, guid: f14f6ced880f86d4eab7be9de9cc6d75, type: 3}
+  trapPrefabs: {fileID: 1826823735867886, guid: 84b6dcc9019b86143812a6901fecd619, type: 3}
   ball: {fileID: 1225896946}
   levelObjects: {fileID: 11400000, guid: 8fda4b86bbcaf9046a36648d241932b6, type: 2}
+  trapInMap:
+  - x: 6
+    y: 0
+    tileKind: 0
+  - x: 0
+    y: 0
+    tileKind: 0
   wallMaterial: {fileID: -2505642851634945670, guid: c01a5469cbd69fa4c8ac20b0db1b7f70, type: 3}
   ballMaterial: {fileID: 2926557707537190794, guid: c9cfd97ac89d98c4dad3855335512763, type: 3}
   colorBackground: {r: 0.9811321, g: 0.88692474, b: 0.06941971, a: 1}
@@ -9335,7 +9343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1823236430
 RectTransform:
   m_ObjectHideFlags: 0

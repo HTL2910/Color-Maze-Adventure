@@ -14,6 +14,7 @@ public class BoolMatrix : ScriptableObject
    
    
     public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
+    //public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
 
     private void Reset()
     {
