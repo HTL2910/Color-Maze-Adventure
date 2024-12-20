@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && UIManager.Instance.isLose==false)
         {
-            Debug.Log(other.name);
-
+            UIManager.Instance.LoseGame();
+        
         }
     }
+    
 }
