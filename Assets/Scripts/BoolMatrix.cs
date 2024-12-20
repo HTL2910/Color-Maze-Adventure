@@ -11,8 +11,8 @@ public class BoolMatrix : ScriptableObject
     public Material wallMaterial;
     public Color colorBackground;
     public Color newColorBackground;
-   
-   
+    public TileType[] trapInMap;
+
     public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
     //public List<bool> matrix = new List<bool>(); // Sử dụng List<bool> thay cho bool[,]
 

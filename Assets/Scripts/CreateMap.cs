@@ -47,9 +47,10 @@ public class CreateMap : MonoBehaviour
     {
         walls = GameObject.FindGameObjectsWithTag("Wall");
         trapSpaces=new bool[width, height];
-        GenTrap();
+        
         InitGamePlay();
         SetMaterial();
+        GenTrap();
         InitMap();
     }
     private void GenTrap()
@@ -86,6 +87,7 @@ public class CreateMap : MonoBehaviour
         boolMatrix = levelObjects.list_Matrix[index];
         ballMaterial = boolMatrix.ballMaterial;
         wallMaterial = boolMatrix.wallMaterial;
+        trapInMap=boolMatrix.trapInMap;
         colorBackground = boolMatrix.colorBackground;
         newColorBackground = boolMatrix.newColorBackground;
         maps = new GameObject[width, height];
