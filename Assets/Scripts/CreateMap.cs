@@ -18,21 +18,20 @@ public class TileType
 }
 public class CreateMap : MonoBehaviour
 {
-    [Header("attribute")]
-    [SerializeField] int width = 9;
-    [SerializeField] int height = 12;
+    int width;
+    int height; 
     [Header("GameObject")]
     public GameObject tileBackGround;
     public GameObject wallPrefabs;
     public GameObject trapPrefabs;
     public GameObject breakablePrefabs;
+    public GameObject bossPrefabs;
     public GameObject ball;
     public LevelObject levelObjects;
     private GameObject[] walls;
     private GameObject[,] maps;
     public TileType[] trapInMap;
-    private bool[,] trapSpaces;
-    private bool[,] breakableSpaces;
+
     private List<ColliderBackGround> colliders;
     protected int level;
     int index;
@@ -50,8 +49,7 @@ public class CreateMap : MonoBehaviour
     private void Start()
     {
         walls = GameObject.FindGameObjectsWithTag("Wall");
-        trapSpaces=new bool[width, height];
-        breakableSpaces = new bool[width, height];
+       
         
         InitGamePlay();
         SetMaterial();
@@ -64,11 +62,15 @@ public class CreateMap : MonoBehaviour
         {
             if (trapInMap[i].tileKind == TileTrap.Trap)
             {
-                trapSpaces[trapInMap[i].x, trapInMap[i].y] = true;
+                GameManager.Instance.trapSpaces[trapInMap[i].x, trapInMap[i].y] = true;
             }
             if (trapInMap[i].tileKind == TileTrap.Breakable)
             {
-                breakableSpaces[trapInMap[i].x, trapInMap[i].y] = true;
+                GameManager.Instance.breakableSpaces[trapInMap[i].x, trapInMap[i].y] = true;
+            }
+            if (trapInMap[i].tileKind == TileTrap.Boss)
+            {
+                GameManager.Instance.bossSpaces[trapInMap[i].x, trapInMap[i].y] = true;
             }
         }
     }
@@ -84,6 +86,8 @@ public class CreateMap : MonoBehaviour
     private void InitGamePlay()
     {
         level = PlayerPrefs.GetInt("Level", 1);
+        width = GameManager.Instance.width;
+        height = GameManager.Instance.height;
         if (levelObjects.list_Matrix.Count < level)
         {
             int tmp = (int)UnityEngine.Random.Range(0, levelObjects.list_Matrix.Count);
@@ -129,13 +133,19 @@ public class CreateMap : MonoBehaviour
                 }
                 else 
                 {
-                    if (breakableSpaces[i, j] == true)
+                    if (GameManager.Instance.breakableSpaces[i, j] == true)
                     {
                         GameObject breakObj = Instantiate(breakablePrefabs, this.transform);
                         breakObj.transform.position = new Vector3(i, j, 89.5f);
                         breakObj.name = $"breakObj: ({i},{j})";
                     }
-                    if (trapSpaces[i,j]==true)
+                    if (GameManager.Instance.bossSpaces[i,j] == true)
+                    {
+                        GameObject bossObj = Instantiate(bossPrefabs, this.transform);
+                        bossObj.transform.position = new Vector3(i, j, 89.5f);
+                        bossObj.name = $"AI: ({i},{j})";
+                    }
+                    if (GameManager.Instance.trapSpaces[i,j]==true)
                     {
                         GameObject trap = Instantiate(trapPrefabs, this.transform);
                         trap.transform.position = new Vector3(i, j, 91f);
@@ -164,7 +174,7 @@ public class CreateMap : MonoBehaviour
                             Debug.LogWarning($"Tile tại ({i},{j}) không có ColliderBackGround.");
                         }
                     }
-                   
+                    GameManager.Instance.walkableMap[i, j] = true;
                 }
             }
         }
