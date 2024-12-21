@@ -5565,6 +5565,7 @@ MonoBehaviour:
   tileBackGround: {fileID: 7694186862702698537, guid: a90e9720dfa5fba4898f9dc910c3a79d, type: 3}
   wallPrefabs: {fileID: 5848999052672705806, guid: f14f6ced880f86d4eab7be9de9cc6d75, type: 3}
   trapPrefabs: {fileID: 1826823735867886, guid: 84b6dcc9019b86143812a6901fecd619, type: 3}
+  breakablePrefabs: {fileID: 503486892957059655, guid: 989904e0296a87340bf25fa8123ee1c9, type: 3}
   ball: {fileID: 1225896946}
   levelObjects: {fileID: 11400000, guid: 8fda4b86bbcaf9046a36648d241932b6, type: 2}
   trapInMap:

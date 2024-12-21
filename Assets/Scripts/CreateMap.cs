@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum TileTrap
 {
@@ -17,18 +18,21 @@ public class TileType
 }
 public class CreateMap : MonoBehaviour
 {
-   
+    [Header("attribute")]
     [SerializeField] int width = 9;
     [SerializeField] int height = 12;
+    [Header("GameObject")]
     public GameObject tileBackGround;
     public GameObject wallPrefabs;
     public GameObject trapPrefabs;
+    public GameObject breakablePrefabs;
     public GameObject ball;
     public LevelObject levelObjects;
     private GameObject[] walls;
     private GameObject[,] maps;
     public TileType[] trapInMap;
     private bool[,] trapSpaces;
+    private bool[,] breakableSpaces;
     private List<ColliderBackGround> colliders;
     protected int level;
     int index;
@@ -47,6 +51,7 @@ public class CreateMap : MonoBehaviour
     {
         walls = GameObject.FindGameObjectsWithTag("Wall");
         trapSpaces=new bool[width, height];
+        breakableSpaces = new bool[width, height];
         
         InitGamePlay();
         SetMaterial();
@@ -60,6 +65,10 @@ public class CreateMap : MonoBehaviour
             if (trapInMap[i].tileKind == TileTrap.Trap)
             {
                 trapSpaces[trapInMap[i].x, trapInMap[i].y] = true;
+            }
+            if (trapInMap[i].tileKind == TileTrap.Breakable)
+            {
+                breakableSpaces[trapInMap[i].x, trapInMap[i].y] = true;
             }
         }
     }
@@ -120,6 +129,12 @@ public class CreateMap : MonoBehaviour
                 }
                 else 
                 {
+                    if (breakableSpaces[i, j] == true)
+                    {
+                        GameObject breakObj = Instantiate(breakablePrefabs, this.transform);
+                        breakObj.transform.position = new Vector3(i, j, 89.5f);
+                        breakObj.name = $"breakObj: ({i},{j})";
+                    }
                     if (trapSpaces[i,j]==true)
                     {
                         GameObject trap = Instantiate(trapPrefabs, this.transform);
@@ -127,6 +142,7 @@ public class CreateMap : MonoBehaviour
                         trap.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
                         trap.name = $"Trap: ({i},{j})";
                     }
+                    
                     else
                     {
                         GameObject tile = Instantiate(tileBackGround, this.transform);
