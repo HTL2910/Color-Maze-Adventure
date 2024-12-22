@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
     public bool[,] walkableMap;
     public bool[,] trapSpaces;
     public bool[,] breakableSpaces;
+    public bool[,] enemySpaces;
     public bool[,] bossSpaces;
     public void Awake()
     {
@@ -32,6 +33,7 @@ public class GameManager : Singleton<GameManager>
         trapSpaces = new bool[width, height];
         breakableSpaces = new bool[width, height];
         walkableMap = new bool[width, height];
+        enemySpaces = new bool[width, height];
         bossSpaces = new bool[width, height];
     }
 }

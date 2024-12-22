@@ -12,6 +12,10 @@ public class Trap : MonoBehaviour
             UIManager.Instance.LoseGame();
         
         }
+        if (other.CompareTag("Boss"))
+        {
+            Destroy(other.gameObject);
+        }
     }
     
 }

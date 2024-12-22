@@ -7,7 +7,8 @@ public enum TileTrap
 {
     Trap, 
     Breakable,
-    Boss
+    Boss,
+    Enemy
 }
 [System.Serializable]
 public class TileType
@@ -26,6 +27,7 @@ public class CreateMap : MonoBehaviour
     public GameObject trapPrefabs;
     public GameObject breakablePrefabs;
     public GameObject bossPrefabs;
+    public GameObject enemyPrefabs;
     public GameObject ball;
     public LevelObject levelObjects;
     private GameObject[] walls;
@@ -68,6 +70,10 @@ public class CreateMap : MonoBehaviour
             {
                 GameManager.Instance.breakableSpaces[trapInMap[i].x, trapInMap[i].y] = true;
             }
+            if (trapInMap[i].tileKind == TileTrap.Enemy)
+            {
+                GameManager.Instance.enemySpaces[trapInMap[i].x, trapInMap[i].y] = true;
+            } 
             if (trapInMap[i].tileKind == TileTrap.Boss)
             {
                 GameManager.Instance.bossSpaces[trapInMap[i].x, trapInMap[i].y] = true;
@@ -139,11 +145,17 @@ public class CreateMap : MonoBehaviour
                         breakObj.transform.position = new Vector3(i, j, 89.5f);
                         breakObj.name = $"breakObj: ({i},{j})";
                     }
-                    if (GameManager.Instance.bossSpaces[i,j] == true)
+                    if (GameManager.Instance.enemySpaces[i,j] == true)
+                    {
+                        GameObject enemyObj = Instantiate(enemyPrefabs, this.transform);
+                        enemyObj.transform.position = new Vector3(i, j, 89.5f);
+                        enemyObj.name = $"AI enemy: ({i},{j})";
+                    }
+                    if (GameManager.Instance.bossSpaces[i, j] == true)
                     {
                         GameObject bossObj = Instantiate(bossPrefabs, this.transform);
                         bossObj.transform.position = new Vector3(i, j, 89.5f);
-                        bossObj.name = $"AI: ({i},{j})";
+                        bossObj.name = $"AI boss: ({i},{j})";
                     }
                     if (GameManager.Instance.trapSpaces[i,j]==true)
                     {
