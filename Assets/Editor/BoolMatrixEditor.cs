@@ -23,6 +23,7 @@ public class BoolMatrixEditor : Editor
         }
 
         // Nút Paste 4 Fields
+        if (GUILayout.Button("Paste 4 Fields"))
         {
             try
             {
