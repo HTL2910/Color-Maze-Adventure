@@ -112,5 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newColor: {r: 0.25958225, g: 0.9245283, b: 0.07413671, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 0}
   isActive: 1

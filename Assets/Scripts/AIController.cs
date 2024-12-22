@@ -6,12 +6,12 @@ public class AIController : MonoBehaviour
 {
     public GameObject player; 
     private Vector2Int currentPos;
- 
+    public float timeMove = 1f;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         currentPos = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-        InvokeRepeating("Move", 1f, 3f);
+        InvokeRepeating("Move", 1f, timeMove);
     }
     private void Move()
     {

@@ -39,8 +39,8 @@ public class ColliderBackGround : MonoBehaviour
                 isActive = 0;
                 if (create.CheckCount())
                 {
-                    PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 1) + 1);
-                    PlayerPrefs.Save();
+                    GameManager.Instance.level += 1;
+                    GameManager.Instance.SaveGameData();
                     UIManager.Instance.WinGame();
                     StartCoroutine(NextGame());
                 }

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 9
   columns: 12
-  ballMaterial: {fileID: -2867747967464863736, guid: 144b2c6c7b617a7428c8fc85015377fc, type: 3}
-  wallMaterial: {fileID: 2926557707537190794, guid: 5b9b019cd64e636408f0e31c4b111919, type: 3}
-  colorBackground: {r: 0.9622642, g: 0.15886435, b: 0.15886435, a: 1}
-  newColorBackground: {r: 0.14966333, g: 0.7647059, b: 0.019607842, a: 1}
+  ballMaterial: {fileID: 2100000, guid: 074e5be0150422d4590ee892651f55ba, type: 2}
+  wallMaterial: {fileID: 7575915981058242857, guid: e3a6cb0732c6ae04b91be8b3de4a2755, type: 3}
+  colorBackground: {r: 0.9529412, g: 0.9374549, b: 0.12156861, a: 1}
+  newColorBackground: {r: 0.06274509, g: 0.8980392, b: 0.6860176, a: 1}
   trapInMap:
   - x: 1
     y: 6

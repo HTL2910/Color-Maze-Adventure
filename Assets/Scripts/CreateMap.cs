@@ -91,7 +91,7 @@ public class CreateMap : MonoBehaviour
 
     private void InitGamePlay()
     {
-        level = PlayerPrefs.GetInt("Level", 1);
+        level = GameManager.Instance.level;
         width = GameManager.Instance.width;
         height = GameManager.Instance.height;
         if (levelObjects.list_Matrix.Count < level)

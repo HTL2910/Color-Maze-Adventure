@@ -15,6 +15,34 @@ public class BoolMatrixEditor : Editor
         boolMatrix.colorBackground = EditorGUILayout.ColorField("Color Background", boolMatrix.colorBackground);
         boolMatrix.newColorBackground = EditorGUILayout.ColorField("New Color Background", boolMatrix.newColorBackground);
 
+        // Nút Copy 4 Fields
+        if (GUILayout.Button("Copy 4 Fields"))
+        {
+            EditorGUIUtility.systemCopyBuffer = JsonUtility.ToJson(new SerializableFields(boolMatrix));
+            Debug.Log("Copied 4 fields to clipboard.");
+        }
+
+        // Nút Paste 4 Fields
+        {
+            try
+            {
+                SerializableFields pastedFields = JsonUtility.FromJson<SerializableFields>(EditorGUIUtility.systemCopyBuffer);
+                if (pastedFields != null)
+                {
+                    pastedFields.ApplyTo(boolMatrix);
+                    Debug.Log("Pasted 4 fields from clipboard.");
+                }
+                else
+                {
+                    Debug.LogWarning("Clipboard does not contain valid data.");
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("Clipboard data is invalid or not in the correct format.");
+            }
+        }
+
         // Hiển thị và chỉnh sửa trapInMap
         EditorGUILayout.LabelField("Trap In Map", EditorStyles.boldLabel);
         if (boolMatrix.trapInMap == null || boolMatrix.trapInMap.Length == 0)
@@ -104,5 +132,30 @@ public class BoolMatrixEditor : Editor
         var tempList = new List<TileType>(trapArray);
         tempList.RemoveAt(index);
         trapArray = tempList.ToArray();
+    }
+
+    [System.Serializable]
+    private class SerializableFields
+    {
+        public Material ballMaterial;
+        public Material wallMaterial;
+        public Color colorBackground;
+        public Color newColorBackground;
+
+        public SerializableFields(BoolMatrix matrix)
+        {
+            ballMaterial = matrix.ballMaterial;
+            wallMaterial = matrix.wallMaterial;
+            colorBackground = matrix.colorBackground;
+            newColorBackground = matrix.newColorBackground;
+        }
+
+        public void ApplyTo(BoolMatrix matrix)
+        {
+            matrix.ballMaterial = ballMaterial;
+            matrix.wallMaterial = wallMaterial;
+            matrix.colorBackground = colorBackground;
+            matrix.newColorBackground = newColorBackground;
+        }
     }
 }

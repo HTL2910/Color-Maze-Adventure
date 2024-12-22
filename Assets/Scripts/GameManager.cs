@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -13,18 +14,15 @@ public class GameManager : Singleton<GameManager>
     public bool[,] breakableSpaces;
     public bool[,] enemySpaces;
     public bool[,] bossSpaces;
+
+    private string saveFilePath;
+
     public void Awake()
     {
-        if (PlayerPrefs.HasKey("Level"))
-        {
-            level = PlayerPrefs.GetInt("Level",1);
-        }
-        else
-        {
-            level = 1;
-            PlayerPrefs.SetInt("Level", 1);
-            PlayerPrefs.Save();
-        }
+
+        saveFilePath = Path.Combine(Application.persistentDataPath, "gameData.json");
+
+        LoadGameData();
         Init();
     }
 
@@ -36,4 +34,38 @@ public class GameManager : Singleton<GameManager>
         enemySpaces = new bool[width, height];
         bossSpaces = new bool[width, height];
     }
+    public void SaveGameData()
+    {
+        GameData data = new GameData
+        {
+            level = this.level
+        };
+
+        string json = JsonUtility.ToJson(data, true); 
+        File.WriteAllText(saveFilePath, json); 
+        Debug.Log($"Game data saved to {saveFilePath}");
+    }
+
+    public void LoadGameData()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath); 
+            GameData data = JsonUtility.FromJson<GameData>(json); 
+            this.level = data.level;
+            Debug.Log($"Game data loaded from {saveFilePath}");
+        }
+        else
+        {
+            level = 1;
+            SaveGameData(); 
+        }
+    }
 }
+
+[System.Serializable]
+public class GameData
+{
+    public int level;
+}
+
