@@ -13,6 +13,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject settingPanel;
     public GameObject startPanel;
     public GameObject losePanel;
+    public GameObject tutorialPanel;
     public Slider audioSlider;
     public AudioSource audioSource;
     public AudioClip winGame;
@@ -54,6 +55,8 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitForSeconds(time);
         startPanel.SetActive(false);
+        yield return new WaitForSeconds(2*time);
+        tutorialPanel.SetActive(false);
     }
     public void RandomAudio()
     {
@@ -72,6 +75,7 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitForSeconds(time);
         losePanel.SetActive(true);
+       
     }
     public void RestartGame()
     {
