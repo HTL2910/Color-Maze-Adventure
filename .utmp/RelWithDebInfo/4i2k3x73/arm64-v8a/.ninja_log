@@ -1,0 +1,5 @@
+# ninja log v5
+13	1056	7640664613010974	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	ad0dc771de94b676
+1057	1449	7640664616990034	D:/Unity/Project/Color-Maze-Adventure/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4i2k3x73/obj/arm64-v8a/libswappywrapper.so	6d9db7506c5b6c5a
+3	274	7640667818307470	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	ad0dc771de94b676
+275	444	7640667820066983	D:/Unity/Project/Color-Maze-Adventure/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4i2k3x73/obj/arm64-v8a/libswappywrapper.so	6d9db7506c5b6c5a
