@@ -574,7 +574,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 594791683}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1039340361}
+        m_TargetAssemblyTypeName: GroupItem, Assembly-CSharp
+        m_MethodName: OnOKButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &594791683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1274,7 +1286,10 @@ MonoBehaviour:
   content: {fileID: 174408411}
   itemsList: []
   imageResources: {fileID: 319022460}
+  maxImage: {fileID: 897060933}
   listImageData: []
+  currentType: 4
+  isRandomType: 0
 --- !u!1 &1579112937
 GameObject:
   m_ObjectHideFlags: 0
