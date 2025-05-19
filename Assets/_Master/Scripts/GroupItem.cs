@@ -37,4 +37,30 @@ public class GroupItem : MonoBehaviour
         }
         return true;
     }
+    public void OnOKButtonClick()
+    {
+        listImageData.Clear();
+        for (int i = 0; i < content.childCount; i++)
+        {
+            Transform child = content.GetChild(i);
+            Item itemScript = child.GetComponent<Item>();
+            if (itemScript != null)
+            {
+                ImageData imageData = new ImageData
+                {
+                    rank = itemScript.index + 1,
+                    sprite = imageResources.allImages[itemScript.index].sprite
+                };
+                listImageData.Add(imageData);
+            }
+        }
+        if(CheckOrder(listImageData))
+        {
+            Debug.Log("Đúng");
+        }
+        else
+        {
+            Debug.Log("Sai");
+        }
+    }
 }
