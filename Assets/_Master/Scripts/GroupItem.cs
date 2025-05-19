@@ -11,8 +11,7 @@ public class GroupItem : MonoBehaviour
     [SerializeField] List<GameObject> itemsList;
     [SerializeField] private ImageResources imageResources;
     [SerializeField] private Image maxImage;
-    private List<ImageData> listImageData;
-    private int countItem = 24;
+    [SerializeField]private List<ImageData> listImageData;
     private int totalTypes = 6;
     public int currentType=1;
     public bool isRandomType=false;
@@ -24,11 +23,11 @@ public class GroupItem : MonoBehaviour
     private void GenerateItem()
     {
         listImageData = Generate25Images(imageResources.allImages);
-        for (int i = 0; i < countItem; i++)
+        for (int i = 0; i < listImageData.Count; i++)
         {
             GameObject item = Instantiate(itemPrefab, content);
             Item itemScript = item.GetComponent<Item>();
-            itemScript.index = i;
+            itemScript.index = listImageData[i].rank;
             itemScript.image.texture = listImageData[i].sprite.texture;
             itemsList.Add(item);
         }
@@ -46,12 +45,12 @@ public class GroupItem : MonoBehaviour
         
         for (int i = 0; i < 6; i++)
         {
-            int type= isRandomType? rng.Next(1, totalTypes + 1):currentType;
+            currentType= isRandomType? rng.Next(1, totalTypes + 1):currentType;
             int rankMin = 1 + 4 * i;  
             int rankMax = rankMin + 3; 
             Debug.Log($"rankMin: {rankMin}, rankMax: {rankMax}");
             var group = allImages
-                .Where(img => img.typeIndex == type && 
+                .Where(img => img.typeIndex == currentType && 
                     img.rank >= rankMin && img.rank <= rankMax && 
                     !used.Contains(img))
                     .OrderBy(x => Random.value)
@@ -63,7 +62,7 @@ public class GroupItem : MonoBehaviour
             foreach (var img in group) used.Add(img);
             if(i==5)
             {
-                maxImage.sprite=allImages.Where(img=>img.typeIndex==type && img.rank==25).First().sprite;
+                maxImage.sprite=allImages.Where(img=>img.typeIndex==currentType && img.rank==25).First().sprite;
             }
             
         }
@@ -88,12 +87,14 @@ public class GroupItem : MonoBehaviour
         {
             Transform child = content.GetChild(i);
             Item itemScript = child.GetComponent<Item>();
-            if (itemScript != null)
+            RawImage rawImage = child.GetComponentInChildren<RawImage>();
+            if (itemScript != null && rawImage != null)
             {
                 ImageData imageData = new ImageData
                 {
-                    rank = itemScript.index + 1,
-                    sprite = imageResources.allImages[itemScript.index].sprite
+                    rank = itemScript.index,
+                    typeIndex = currentType,
+                    sprite = Sprite.Create(rawImage.texture as Texture2D, new Rect(0, 0, rawImage.texture.width, rawImage.texture.height), new Vector2(0.5f, 0.5f))
                 };
                 listImageData.Add(imageData);
             }

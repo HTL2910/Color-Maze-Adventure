@@ -20,18 +20,29 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         originalPosition = rectTransform.position;
         originalParent = transform.parent;
+        transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.8f;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.position += (Vector3)eventData.delta / canvas.scaleFactor;
+        Vector2 position;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            eventData.position,
+            canvas.worldCamera,
+            out position);
+        
+        rectTransform.position = canvas.transform.TransformPoint(position);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        transform.SetParent(originalParent);
         rectTransform.position = originalPosition;
         canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1f;
     }
 
     public void OnDrop(PointerEventData eventData)
