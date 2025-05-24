@@ -13,10 +13,11 @@ public class ImageResources : MonoBehaviour
 {
     public List<ImageData> allImages;
 
-    void Start()
+    void Reset()
     {
         allImages = LoadAllImages();
     }
+
     public List<ImageData> LoadAllImages()//hàm lấy tất cả ảnh từ folder
     {
         List<ImageData> allImages = new List<ImageData>();
@@ -24,7 +25,7 @@ public class ImageResources : MonoBehaviour
         for (int folderIndex = 1; folderIndex <= 6; folderIndex++)
         {
             string folderPath = $"Type{folderIndex}";
-            
+                
             Sprite[] sprites = Resources.LoadAll<Sprite>(folderPath);
 
             for (int i = 0; i < sprites.Length; i++)
@@ -40,5 +41,4 @@ public class ImageResources : MonoBehaviour
 
         return allImages;
     }
-   
 }
