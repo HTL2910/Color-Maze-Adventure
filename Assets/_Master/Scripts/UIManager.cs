@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     }
     public void NextLevel()
     {
+        AudioManager.Instance.PlayButtonClickSound();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void SetFlagImage(Sprite sprite)

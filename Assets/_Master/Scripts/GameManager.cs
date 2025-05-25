@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(CurrentLevel.background);
         UIManager.instance.SetFlagImage(CurrentLevel.background);
         Debug.Log(UIManager.instance.flagObject.GetComponent<Image>().sprite);
-        Invoke(nameof(FlagActive), 2f);
+        Invoke(nameof(FlagActive), 3f);
         LoadCurrentLevelData();
     }
     private void FlagActive()

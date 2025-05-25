@@ -57,7 +57,7 @@ public class GroupItem : MonoBehaviour
     public void OnOKButtonClick()
     {
         List<ImageData> currentList = new List<ImageData>();
-
+        AudioManager.Instance.PlayButtonClickSound();
         for (int i = 0; i < content.childCount; i++)
         {
             Transform child = content.GetChild(i);
@@ -78,10 +78,12 @@ public class GroupItem : MonoBehaviour
 
         if (CheckOrder(currentList))
         {
+            AudioManager.Instance.PlayWinSound();
             UIManager.instance.WinGame();
         }
         else
         {
+            AudioManager.Instance.PlayLoseSound();
             UIManager.instance.LoseGame();
         }
     }

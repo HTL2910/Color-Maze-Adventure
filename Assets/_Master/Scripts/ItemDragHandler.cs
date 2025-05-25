@@ -18,6 +18,7 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        AudioManager.Instance.PlayDragAndDropSound();
         originalPosition = rectTransform.position;
         originalParent = transform.parent;
         transform.SetParent(canvas.transform);
