@@ -42,30 +42,74 @@ public class BallMove : MonoBehaviour
 
     private void DetermineMoveDirection()
     {
-        if (SwipeAngle > -45 && SwipeAngle <= 45)
+        if (IsRightDirection())
         {
-            // Right
-            Debug.Log("Right");
-            moveDirection = Vector2.right;
+            MoveRight();
         }
-        else if (SwipeAngle > 45 && SwipeAngle <= 135)
+        else if (IsUpDirection())
         {
-            // Up
-            moveDirection = Vector2.up;
-            Debug.Log("Up");
+            MoveUp();
         }
-        else if (SwipeAngle > 135 || SwipeAngle <= -135)
+        else if (IsLeftDirection())
         {
-            // Left
-            moveDirection = Vector2.left;
-            Debug.Log("Left");
+            MoveLeft();
         }
-        else if (SwipeAngle > -135 && SwipeAngle < -45)
+        else if (IsDownDirection())
         {
-            // Down
-            moveDirection = Vector2.down;
-            Debug.Log("Down");
+            MoveDown();
         }
+    }
+
+    // Hàm kiểm tra hướng Right
+    private bool IsRightDirection()
+    {
+        return SwipeAngle > -45 && SwipeAngle <= 45;
+    }
+
+    // Hàm xử lý di chuyển Right
+    private void MoveRight()
+    {
+        Debug.Log("Right");
+        moveDirection = Vector2.right;
+    }
+
+    // Hàm kiểm tra hướng Up
+    private bool IsUpDirection()
+    {
+        return SwipeAngle > 45 && SwipeAngle <= 135;
+    }
+
+    // Hàm xử lý di chuyển Up
+    private void MoveUp()
+    {
+        Debug.Log("Up");
+        moveDirection = Vector2.up;
+    }
+
+    // Hàm kiểm tra hướng Left
+    private bool IsLeftDirection()
+    {
+        return SwipeAngle > 135 || SwipeAngle <= -135;
+    }
+
+    // Hàm xử lý di chuyển Left
+    private void MoveLeft()
+    {
+        Debug.Log("Left");
+        moveDirection = Vector2.left;
+    }
+
+    // Hàm kiểm tra hướng Down
+    private bool IsDownDirection()
+    {
+        return SwipeAngle > -135 && SwipeAngle < -45;
+    }
+
+    // Hàm xử lý di chuyển Down
+    private void MoveDown()
+    {
+        Debug.Log("Down");
+        moveDirection = Vector2.down;
     }
 
     private IEnumerator MoveBall()
