@@ -11,105 +11,109 @@ public class BallMove : MonoBehaviour
     public float speed = 5f;
     protected Vector2 moveDirection;
      
-    private void Update()
-    {
-        if (moveDirection == Vector2.zero)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
+    // private void Update()
+    // {
+    //     if (moveDirection == Vector2.zero)
+    //     {
+    //         if (Input.GetMouseButtonDown(0))
+    //         {
+    //             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //         }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                CalculateAngle();
-            }
-        }
-    }
+    //         if (Input.GetMouseButtonUp(0))
+    //         {
+    //             finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //             CalculateAngle();
+    //         }
+    //     }
+    // }
  
 
-    protected void CalculateAngle()
-    {
-        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
-            Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
-        {
-            SwipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
-            DetermineMoveDirection();
-            StartCoroutine(MoveBall());
-        }
-    }
+    // protected void CalculateAngle()
+    // {
+    //     if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
+    //         Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
+    //     {
+    //         SwipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
+    //         DetermineMoveDirection();
+    //         StartCoroutine(MoveBall());
+    //     }
+    // }
 
-    private void DetermineMoveDirection()
-    {
-        if (IsRightDirection())
-        {
-            MoveRight();
-        }
-        else if (IsUpDirection())
-        {
-            MoveUp();
-        }
-        else if (IsLeftDirection())
-        {
-            MoveLeft();
-        }
-        else if (IsDownDirection())
-        {
-            MoveDown();
-        }
-    }
+    // private void DetermineMoveDirection()
+    // {
+    //     if (IsRightDirection())
+    //     {
+    //         MoveRight();
+    //     }
+    //     else if (IsUpDirection())
+    //     {
+    //         MoveUp();
+    //     }
+    //     else if (IsLeftDirection())
+    //     {
+    //         MoveLeft();
+    //     }
+    //     else if (IsDownDirection())
+    //     {
+    //         MoveDown();
+    //     }
+    // }
 
     // Hàm kiểm tra hướng Right
-    private bool IsRightDirection()
-    {
-        return SwipeAngle > -45 && SwipeAngle <= 45;
-    }
+    // private bool IsRightDirection()
+    // {
+    //     return SwipeAngle > -45 && SwipeAngle <= 45;
+    // }
 
     // Hàm xử lý di chuyển Right
-    private void MoveRight()
+    public void MoveRight()
     {
         Debug.Log("Right");
         moveDirection = Vector2.right;
+        StartCoroutine(MoveBall());
     }
 
     // Hàm kiểm tra hướng Up
-    private bool IsUpDirection()
-    {
-        return SwipeAngle > 45 && SwipeAngle <= 135;
-    }
+    // private bool IsUpDirection()
+    // {
+    //     return SwipeAngle > 45 && SwipeAngle <= 135;
+    // }
 
     // Hàm xử lý di chuyển Up
-    private void MoveUp()
+    public void MoveUp()
     {
         Debug.Log("Up");
         moveDirection = Vector2.up;
+        StartCoroutine(MoveBall());
     }
 
     // Hàm kiểm tra hướng Left
-    private bool IsLeftDirection()
-    {
-        return SwipeAngle > 135 || SwipeAngle <= -135;
-    }
+    // private bool IsLeftDirection()
+    // {
+    //     return SwipeAngle > 135 || SwipeAngle <= -135;
+    // }
 
     // Hàm xử lý di chuyển Left
-    private void MoveLeft()
+    public void MoveLeft()
     {
         Debug.Log("Left");
         moveDirection = Vector2.left;
+        StartCoroutine(MoveBall());
     }
 
     // Hàm kiểm tra hướng Down
-    private bool IsDownDirection()
-    {
-        return SwipeAngle > -135 && SwipeAngle < -45;
-    }
+    // private bool IsDownDirection()
+    // {
+    //     return SwipeAngle > -135 && SwipeAngle < -45;
+    // }
 
     // Hàm xử lý di chuyển Down
-    private void MoveDown()
+    public void MoveDown()
     {
         Debug.Log("Down");
         moveDirection = Vector2.down;
+        StartCoroutine(MoveBall());
     }
 
     private IEnumerator MoveBall()
