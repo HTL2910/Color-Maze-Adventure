@@ -43,6 +43,8 @@ namespace Whisper.Utils
         [Header("Voice Activity Detection (VAD)")]
         [Tooltip("Should microphone check if audio input has speech?")]
         public bool useVad = true;
+        [Tooltip("Use advanced VAD instead of simple VAD")]
+        public bool useAdvancedVad = false;
         [Tooltip("How often VAD checks if current audio chunk has speech")]
         public float vadUpdateRateSec = 0.1f;
         [Tooltip("Seconds of audio record that VAD uses to check if chunk has speech")]
@@ -56,6 +58,24 @@ namespace Whisper.Utils
         [Tooltip("Optional indicator that changes color when speech detected")]
         [CanBeNull] public Image vadIndicatorImage;
         
+        [Header("Advanced VAD Settings")]
+        [Tooltip("Volume threshold for activation")]
+        public float activateVolumeThreshold = 0.03f;
+        [Tooltip("Maximum queueing time in seconds")]
+        public float maxQueueingTimeSeconds = 0.3f;
+        [Tooltip("Minimum queueing samples")]
+        public float minQueueing = 0.1f;
+        [Tooltip("Activation rate threshold")]
+        public float activateRateThreshold = 0.4f;
+        [Tooltip("Inactivation rate threshold")]
+        public float inactivationRateThreshold = 0.2f;
+        [Tooltip("Activation interval in seconds")]
+        public float activationIntervalSeconds = 0.1f;
+        [Tooltip("Inactivation interval in seconds")]
+        public float inactivationIntervalSeconds = 0.5f;
+        [Tooltip("Maximum active duration in seconds")]
+        public float maxActiveDurationSeconds = 3f;
+        
         [Header("VAD Stop")]
         [Tooltip("If true microphone will stop record when no speech detected")]
         public bool vadStop;
@@ -66,6 +86,8 @@ namespace Whisper.Utils
 
         [Header("Microphone selection (optional)")] 
         [Tooltip("Optional UI dropdown with all available microphone inputs")]
+        [CanBeNull] public Dropdown microphoneDropdown;
+        [Tooltip("The label of default microphone input in dropdown")]
         public string microphoneDefaultLabel = "Default microphone";
 
         /// <summary>
@@ -90,6 +112,7 @@ namespace Whisper.Utils
         private float? _vadStopBegin;
         private int _lastMicPos;
         private bool _madeLoopLap;
+        private AudioUtils.AdvancedVAD _advancedVad;
 
         private string _selectedMicDevice;
 
@@ -112,7 +135,19 @@ namespace Whisper.Utils
 
         public IEnumerable<string> AvailableMicDevices => Microphone.devices;
 
-      
+        private void Awake()
+        {
+            if(microphoneDropdown != null)
+            {
+                microphoneDropdown.options = AvailableMicDevices
+                    .Prepend(microphoneDefaultLabel)
+                    .Select(text => new Dropdown.OptionData(text))
+                    .ToList();
+                microphoneDropdown.value = microphoneDropdown.options
+                    .FindIndex(op => op.text == microphoneDefaultLabel);
+                microphoneDropdown.onValueChanged.AddListener(OnMicrophoneChanged);
+            }
+        }
 
         private void Update()
         {
@@ -196,7 +231,32 @@ namespace Whisper.Utils
             
             // try to get sample for voice detection
             var data = GetMicBufferLast(micPos, vadContextSec);
-            var vad = AudioUtils.SimpleVad(data, _clip.frequency, vadLastSec, vadThd, vadFreqThd);
+            bool vad;
+            
+            if (useAdvancedVad)
+            {
+                // Use advanced VAD
+                if (_advancedVad == null)
+                {
+                    _advancedVad = new AudioUtils.AdvancedVAD
+                    {
+                        activateVolumeThreshold = activateVolumeThreshold,
+                        maxQueueingTimeSeconds = maxQueueingTimeSeconds,
+                        minQueueing = minQueueing,
+                        activateRateThreshold = activateRateThreshold,
+                        inactivationRateThreshold = inactivationRateThreshold,
+                        activationIntervalSeconds = activationIntervalSeconds,
+                        inactivationIntervalSeconds = inactivationIntervalSeconds,
+                        maxActiveDurationSeconds = maxActiveDurationSeconds
+                    };
+                }
+                vad = AudioUtils.AdvancedVadDetection(data, _clip.frequency, _advancedVad, Time.realtimeSinceStartup);
+            }
+            else
+            {
+                // Use simple VAD
+                vad = AudioUtils.SimpleVad(data, _clip.frequency, vadLastSec, vadThd, vadFreqThd);
+            }
 
             // raise event if vad has changed
             if (vad != IsVoiceDetected)
@@ -229,7 +289,12 @@ namespace Whisper.Utils
             }
         }
 
-       
+        private void OnMicrophoneChanged(int ind)
+        {
+            if (microphoneDropdown == null) return;
+            var opt = microphoneDropdown.options[ind];
+            SelectedMicDevice = opt.text == microphoneDefaultLabel ? null : opt.text;
+        }
 
         /// <summary>
         /// Start microphone recording
@@ -249,6 +314,12 @@ namespace Whisper.Utils
             _lastVadPos = 0;
             _vadStopBegin = null;
             _chunksLength = (int) (_clip.frequency * _clip.channels * chunksLengthSec);
+            
+            // Reset advanced VAD if using it
+            if (useAdvancedVad && _advancedVad != null)
+            {
+                _advancedVad.Reset();
+            }
         }
 
         /// <summary>

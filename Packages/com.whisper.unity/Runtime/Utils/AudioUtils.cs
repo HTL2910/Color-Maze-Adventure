@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Whisper.Utils
 {
@@ -119,6 +121,111 @@ namespace Whisper.Utils
                 y = alpha * (y + data[i] - data[i - 1]);
                 data[i] = y;
             }
+        }
+
+        /// <summary>
+        /// Advanced Voice Activity Detection with detailed parameters
+        /// </summary>
+        public class AdvancedVAD
+        {
+            public float activateVolumeThreshold = 0.03f;
+            public float maxQueueingTimeSeconds = 0.3f;
+            public float minQueueing = 0.1f;
+            public float activateRateThreshold = 0.4f;
+            public float inactivationRateThreshold = 0.2f;
+            public float activationIntervalSeconds = 0.1f;
+            public float inactivationIntervalSeconds = 0.5f;
+            public float maxActiveDurationSeconds = 3f;
+            
+            private float _lastActivationTime = 0f;
+            private float _lastInactivationTime = 0f;
+            private float _activeStartTime = 0f;
+            private bool _isActive = false;
+            private Queue<float> _volumeQueue = new Queue<float>();
+            private float _queueStartTime = 0f;
+            
+            public bool DetectVoice(float[] data, int sampleRate, float currentTime)
+            {
+                // Calculate current volume (RMS)
+                float volume = CalculateRMS(data);
+                
+                // Add to queue
+                _volumeQueue.Enqueue(volume);
+                
+                // Remove old entries from queue
+                while (_volumeQueue.Count > 0 && 
+                       currentTime - _queueStartTime > maxQueueingTimeSeconds)
+                {
+                    _volumeQueue.Dequeue();
+                    _queueStartTime = currentTime;
+                }
+                
+                if (_volumeQueue.Count == 0) return false;
+                
+                // Calculate average volume from queue
+                float avgVolume = _volumeQueue.Average();
+                
+                // Check activation conditions
+                bool shouldActivate = avgVolume > activateVolumeThreshold && 
+                                    _volumeQueue.Count >= minQueueing &&
+                                    currentTime - _lastActivationTime >= activationIntervalSeconds;
+                
+                // Check inactivation conditions
+                bool shouldInactivate = avgVolume <= activateVolumeThreshold * inactivationRateThreshold &&
+                                      currentTime - _lastInactivationTime >= inactivationIntervalSeconds;
+                
+                // Handle state changes
+                if (shouldActivate && !_isActive)
+                {
+                    _isActive = true;
+                    _activeStartTime = currentTime;
+                    _lastActivationTime = currentTime;
+                }
+                else if (shouldInactivate && _isActive)
+                {
+                    _isActive = false;
+                    _lastInactivationTime = currentTime;
+                }
+                
+                // Check max active duration
+                if (_isActive && currentTime - _activeStartTime > maxActiveDurationSeconds)
+                {
+                    _isActive = false;
+                    _lastInactivationTime = currentTime;
+                }
+                
+                return _isActive;
+            }
+            
+            private float CalculateRMS(float[] data)
+            {
+                if (data.Length == 0) return 0f;
+                
+                float sum = 0f;
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sum += data[i] * data[i];
+                }
+                return Mathf.Sqrt(sum / data.Length);
+            }
+            
+            public void Reset()
+            {
+                _isActive = false;
+                _volumeQueue.Clear();
+                _lastActivationTime = 0f;
+                _lastInactivationTime = 0f;
+                _activeStartTime = 0f;
+                _queueStartTime = 0f;
+            }
+        }
+
+        /// <summary>
+        /// Advanced VAD detection using the new parameters
+        /// </summary>
+        public static bool AdvancedVadDetection(float[] data, int sampleRate, AdvancedVAD vadConfig, float currentTime)
+        {
+            return vadConfig.DetectVoice(data, sampleRate, currentTime);
         }
 
     }
